@@ -1,0 +1,3 @@
+SELECT P.Name, O.PropertyId
+FROM Property P INNER JOIN OwnerProperty O ON P.Id = O.Id
+WHERE O.OwnerId = 1426
