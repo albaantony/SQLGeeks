@@ -1,5 +1,13 @@
-SELECT P.Name, SUM(V.Value)
-FROM Property P INNER JOIN OwnerProperty O ON P.Id = O.Id 
-INNER JOIN PropertyHomeValue V ON O.PropertyId = V.PropertyId
+SELECT  P.Name, 
+		SUM(V.Value)
+FROM 
+		[dbo].[Property] P 
+				INNER JOIN 
+						[dbo].[OwnerProperty] O 
+				ON P.Id = O.Id 
+				INNER JOIN 
+						[dbo].[PropertyHomeValue] V		
+				ON O.PropertyId = V.PropertyId
 WHERE O.OwnerId = 1426
 GROUP BY P.Name
+
