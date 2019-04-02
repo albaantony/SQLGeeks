@@ -1,0 +1,4 @@
+SELECT Distinct(J.JobDescription), S.Code
+FROM Job J INNER JOIN ServiceProviderJobStatus S
+ON J.JobStatusId = S.Id
+WHERE J.JobStatusId = 1
