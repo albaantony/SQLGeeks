@@ -1,16 +1,15 @@
-SELECT P.Name,
-		Pe.FirstName,
-		Pe.LastName, 
-		Tp.PaymentAmount
+SELECT P.Name PropertyName,
+		Pe.FirstName + ' ' + Pe.LastName TenantName, 
+		Tp.PaymentAmount RentalPayment
 FROM 
 		[dbo].[Property] P 
 				INNER JOIN 
 						[dbo].[OwnerProperty] O 
-				ON P.Id = O.Id
+				ON P.Id = O.PropertyId
 				INNER JOIN 
-						[dbo].[Person] Pe
-				ON P.Id = Pe.Id
-				INNER JOIN
 						[dbo].[TenantProperty] Tp
 				ON O.PropertyId = Tp.PropertyId
+				INNER JOIN
+						[dbo].[Person] Pe
+				ON Tp.TenantId = Pe.Id
 WHERE O.OwnerId = 1426
