@@ -1,9 +1,9 @@
 SELECT  DISTINCT 
-		J.JobDescription, 
-		S.Code
+		M.JobId,
+		J.JobDescription
 FROM 
 		[dbo].[Job] J 
 				INNER JOIN 
-						[dbo].[ServiceProviderJobStatus] S
-				ON J.JobStatusId = S.Id
-WHERE J.JobStatusId = 1
+						[dbo].[JobMedia] M
+				ON J.Id = M.JobId
+WHERE  M.IsActive = 1
