@@ -4,5 +4,6 @@ FROM
 		[dbo].[Property] P 
 				INNER JOIN 
 						[dbo].[OwnerProperty] O 
-				ON P.Id = O.Id
+				ON P.Id = O.PropertyId
 WHERE O.OwnerId = 1426
+
