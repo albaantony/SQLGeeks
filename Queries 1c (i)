@@ -1,0 +1,34 @@
+
+WITH MainTable(PropertyName, TenantId, Amt, F, Sd, Ed) AS
+		(
+			SELECT  P.Name PropertyName,
+					Tp.TenantId TenantId,
+					Tp.PaymentAmount Amt,
+					Tp.PaymentFrequencyId F,
+					Tp.StartDate Sd,
+					Tp.EndDate Ed
+			FROM 
+					[dbo].[Property] P 
+							INNER JOIN 
+									[dbo].[OwnerProperty] O 
+							ON P.Id	= O.PropertyId
+							INNER JOIN 
+									[dbo].[TenantProperty] Tp
+							ON O.PropertyId = Tp.PropertyId
+			WHERE O.OwnerId = 1426)
+SELECT	PropertyName,
+		TenantId,
+		CASE F 
+				WHEN 1 
+						THEN 
+								DATEDIFF(ww,Sd,Ed) * Amt
+				WHEN 2
+						THEN
+								DATEDIFF(ww,Sd,Ed) / 2 * Amt
+				WHEN 3
+						THEN
+								(DATEDIFF(mm,Sd,Ed) + 1) * Amt
+		END AS TotalAmount
+
+FROM 
+		MainTable
