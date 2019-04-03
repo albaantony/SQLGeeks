@@ -1,9 +1,9 @@
-SELECT  P.Name, 
+SELECT  P.Name PropertyName, 
 		O.PropertyId
 FROM 
 		[dbo].[Property] P 
 				INNER JOIN 
 						[dbo].[OwnerProperty] O 
 				ON P.Id = O.PropertyId
-WHERE O.OwnerId = 1426
+WHERE   O.OwnerId = 1426
 
