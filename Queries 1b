@@ -1,5 +1,6 @@
+
 SELECT  P.Name PropertyName, 
-		SUM(V.Value) CurrentHomeValue
+		V.Value CurrentHomeValue
 FROM 
 		[dbo].[Property] P 
 				INNER JOIN 
@@ -12,5 +13,6 @@ FROM
 						[dbo].[PropertyHomeValueType] T
 				ON V.HomeValueTypeId = T.Id
 WHERE   O.OwnerId = 1426 
-		AND T.HomeValueType = 'Current'
-GROUP BY P.Name
+		AND T.HomeValueType = 'Current' 
+		AND V.IsActive = 1
+ORDER BY PropertyName
