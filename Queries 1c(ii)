@@ -1,0 +1,47 @@
+WITH MainTable(PropertyName, Pid, TenantId, Amt, F, Sd, Ed,Ex,Val) AS
+		(
+			SELECT  P.Name PropertyName, P.Id Pid,
+					Tp.TenantId TenantId,
+					Tp.PaymentAmount Amt,
+					Tp.PaymentFrequencyId F,
+					Tp.StartDate Sd,
+					Tp.EndDate Ed,
+					Pe.Amount Ex,
+					Hv.Value Val
+			FROM 
+					[dbo].[Property] P 
+							INNER JOIN 
+									[dbo].[OwnerProperty] O 
+							ON P.Id	= O.PropertyId
+							INNER JOIN 
+									[dbo].[TenantProperty] Tp
+							ON O.PropertyId = Tp.PropertyId
+							INNER JOIN 
+									[dbo].[PropertyHomeValue] Hv
+							ON P.Id = Hv.PropertyId
+							LEFT JOIN 
+									[dbo].[PropertyExpense] Pe
+							ON P.Id = Pe.PropertyId
+			WHERE O.OwnerId = 1426 
+					AND Hv.HomeValueTypeId = 1 
+					AND Hv.IsActive = 1)
+SELECT	PropertyName, Pid,
+		TenantId,
+		Amt Rent,
+		Ex Expense,
+		Val CurrentPropertyValue,
+		CASE F 
+				WHEN 1 
+						THEN 
+								((DATEDIFF(ww,Sd,Ed) * Amt) - COALESCE(Ex,0)) * 100 / Val
+				WHEN 2
+						THEN
+								((DATEDIFF(ww,Sd,Ed) / 2 * Amt) - COALESCE(Ex,0)) * 100 / Val
+				WHEN 3
+						THEN
+								(((DATEDIFF(mm,Sd,Ed) + 1) * Amt) - COALESCE(Ex,0)) * 100 / Val
+		END AS Yield
+FROM 
+		MainTable
+
+ORDER BY PropertyName
