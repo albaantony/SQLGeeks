@@ -1,6 +1,8 @@
+
 SELECT P.Name PropertyName,
 		Pe.FirstName + ' ' + Pe.LastName TenantName, 
-		Tp.PaymentAmount RentalPayment
+		Tp.PaymentAmount RentalPayment,
+		Ftyp.Name PaymentFrequency
 FROM 
 		[dbo].[Property] P 
 				INNER JOIN 
@@ -12,4 +14,8 @@ FROM
 				INNER JOIN
 						[dbo].[Person] Pe
 				ON Tp.TenantId = Pe.Id
+				INNER JOIN 
+						[dbo].[TargetRentType] Ftyp
+				ON Tp.PaymentFrequencyId = Ftyp.Id
 WHERE O.OwnerId = 1426
+
