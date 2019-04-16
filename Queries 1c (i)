@@ -1,4 +1,3 @@
-
 WITH MainTable(PropertyName, TenantId, Amt, F, Sd, Ed) AS
 		(
 			SELECT  P.Name PropertyName,
@@ -29,6 +28,5 @@ SELECT	PropertyName,
 						THEN
 								(DATEDIFF(mm,Sd,Ed) + 1) * Amt
 		END AS TotalAmount
-
 FROM 
 		MainTable
